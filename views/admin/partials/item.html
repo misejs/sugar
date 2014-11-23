@@ -1,0 +1,15 @@
+<ul e-repeat="fields">
+  <li>
+    <label e-attr="for:name" e-text="name"></label>
+    <!-- ko if: tag == 'input' && type != 'checkbox' -->
+    <input data-bind="attr: { type: type, name: name, disabled: !editable }, value: $root.model()[name]"/>
+    <!-- /ko -->
+    <!-- ko if: tag == 'input' && type == 'checkbox' -->
+    <input data-bind="attr: { type: type, name: name, disabled: !editable }, checked: $root.model()[name]"/>
+    <!-- /ko -->
+    <!-- ko if: tag == 'textarea' -->
+    <textarea data-bind="attr: { type: type, name: name, disabled: !editable }, value: $root.model()[name]"></textarea>
+    <!-- /ko -->
+  </li>
+</ul>
+<a data-bind="click: save">Save</a>
