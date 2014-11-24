@@ -1,6 +1,7 @@
 var Resource = require('express-resource');
 
 var setupResources = function(models,db){
+  var resources = {};
   var parseId = function(id){
     try {
       return db.id(id);
@@ -82,14 +83,19 @@ var setupResources = function(models,db){
 
 module.exports = function(app,options){
   options = options || {};
+  if(!options.models) throw new Error('You must pass in models when setting up admin resources.');
   if(!options.db) throw new Error('You must pass in a DB when setting up admin resources.');
   if(!options.baseURL) throw new Error('You must provide a baseURL when setting up admin resources.');
 
+  var models = options.models;
+  var db = options.db;
+  var baseURL = options.baseURL;
+
   // TODO: this setup is currently very mongo specific. May want to offload the resource methods to the db wrapper. We'll do this once we add our first additional db.
-  var resources = setupResources(model,db);
+  var resources = setupResources(models,db);
   Object.keys(resources).forEach(function(name){
     var services = resources[name];
     services.base = baseURL;
-    app.resource(name,services);
+    new Resource(name,services,app);
   });
 }

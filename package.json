@@ -1,5 +1,5 @@
 {
-  "name": "sugar",
+  "name": "mise-sugar",
   "version": "0.0.0",
   "description": "An isomorphic model interface for wrapping CRUD in mise.js apps.",
   "main": "lib/sugar.js",
@@ -22,12 +22,14 @@
   },
   "homepage": "https://github.com/misejs/sugar",
   "dependencies": {
-    "express-resource": "^1.0.0",
-    "mongo-wrapper": "0.0.28",
-    "superagent": "^0.21.0",
-    "superagent-prefix": "0.0.2"
+    "express-resource": "misejs/express-resource#housekeeping",
+    "mongo-wrapper": "~0.0.28",
+    "pluralize": "~1.1.0",
+    "superagent": "~0.21.0",
+    "superagent-prefix": "~0.0.2"
   },
   "devDependencies": {
-    "mocha": "^2.0.1"
+    "express": "~4.10.2",
+    "mocha": "~2.0.1"
   }
 }
