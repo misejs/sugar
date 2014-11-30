@@ -1,30 +1,29 @@
-var helpers = require('./helpers');
+module.exports = function(helpers){
+  function AdminIndexViewModel(ready) {
+    var Model = helpers.currentModel();
+    var self = this;
+    self.items = [];
+    self.collection = helpers.currentCollection();
+    self.remove = function(info){
+      if(confirm('Are you sure you want to delete this item? This cannot be undone.')){
+        var item = new Model(info);
+        item.destroy(function(){
+          reload();
+        },function(){
+          console.error(arguments);
+        });
+      }
+    };
 
-function AdminIndexViewModel(ready) {
-  var Model = helpers.currentModel();
-  var self = this;
-  self.items = [];
-  self.collection = helpers.currentCollection();
-  self.remove = function(info){
-    if(confirm('Are you sure you want to delete this item? This cannot be undone.')){
-      var item = new Model(info);
-      item.destroy(function(){
-        reload();
+    var reload = function(cb){
+      Model.index(function(items){
+        self.items(items);
       },function(){
         console.error(arguments);
-      });
+      },cb);
     }
-  };
 
-  var reload = function(cb){
-    Model.index(function(items){
-      self.items(items);
-    },function(){
-      console.error(arguments);
-    },cb);
+    reload(ready);
   }
-
-  reload(ready);
+  return AdminIndexViewModel;
 }
-
-module.exports = AdminIndexViewModel;

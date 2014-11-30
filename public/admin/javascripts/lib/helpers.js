@@ -1,20 +1,20 @@
-// var models = require('../../models');
 var url = require('url');
 
 var helpers = module.exports = {};
 
-var currentCollection = helpers.currentCollection = function(){
-  var match = url.parse(window.location.href).pathname.match(/\/admin\/([^\/]+)/);
+helpers.currentCollection = function(){
+  var match = url.parse(this.url).pathname.match(/\/admin\/([^\/]+)/);
   return match ? match[1] : null;
 };
 
 helpers.currentID = function(){
-  var match = url.parse(window.location.href).pathname.match(/\/admin\/[^\/]+\/([^\/]+)/);
+  var match = url.parse(this.url).pathname.match(/\/admin\/[^\/]+\/([^\/]+)/);
   return match ? match[1] : null;
 };
 
 helpers.currentModel = function(){
-  var collection = currentCollection();
+  var collection = this.currentCollection();
+  var models = this.models;
   var model = Object.keys(models).reduce(function(previous,name){
     var model = models[name];
     return (model.prototype.collection == collection) ? model : previous;

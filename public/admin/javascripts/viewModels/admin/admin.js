@@ -1,10 +1,10 @@
-module.exports = function(models){
-  function AdminViewModel(ready) {
+module.exports = function(helpers){
+  function AdminViewModel() {
+    var models = helpers.models;
     var modelNames = Object.keys(models).map(function(name){
       return models[name].prototype.collection;
     });
     this.models = [];
-    ready();
   };
   return AdminViewModel;
 };
