@@ -6,7 +6,7 @@ var concat = require('gulp-concat');
 
 // Inject scripts
 gulp.task('injectScripts', ['browserify'], function () {
-  var target = gulp.src('./views/admin/nav.html');
+  var target = gulp.src('./views/admin/layout.html');
   var sources = gulp.src(['./public/admin/build/js/main.js', './public/build/**/*.css'], {read: false});
 
   return target.pipe(inject(sources))

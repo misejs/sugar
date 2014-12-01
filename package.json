@@ -23,6 +23,7 @@
   "homepage": "https://github.com/misejs/sugar",
   "dependencies": {
     "express": "^4.10.3",
+    "express-layout": "misejs/express-layout#views_array_support",
     "express-resource": "misejs/express-resource#housekeeping",
     "jquery-browserify": "^1.8.1",
     "mongo-wrapper": "~0.0.28",

@@ -7,17 +7,8 @@ module.exports = function($,callback){
   helpers.models = this.models;
   helpers.url = this.url;
   async.forEach(routes,function(route,done){
-    var viewModel;
-    var bind = function(){
-      var e = eggs($,{selector : route.selector});
-      e.bind(viewModel);
-      done();
-    }
     var ViewModel = route.viewModel(helpers);
-    var viewModel = new ViewModel(bind);
-    if(!ViewModel.length){
-      bind();
-    }
+    eggs($,{selector : route.selector},ViewModel,done);
   },function(err){
     if(callback){
       var html = $.html();
