@@ -1,4 +1,5 @@
 var url = require('url');
+var addResourceMethods = require('./addResourceMethods');
 
 var helpers = module.exports = {};
 
@@ -19,7 +20,7 @@ helpers.currentModel = function(){
     var model = models[name];
     return (model.prototype.collection == collection) ? model : previous;
   },{});
-  return model;
+  return addResourceMethods(model,this.url);
 };
 
 helpers.parseSchema = function(schema){
@@ -28,19 +29,22 @@ helpers.parseSchema = function(schema){
     var keyInfo = schema[key];
     var info = {
       name : key,
-      editable : keyInfo.editable !== false
+      disabled : keyInfo.editable === false
     };
     switch(keyInfo.type){
       case Boolean:
-        info.tag = 'input';
-        info.type = 'checkbox';
+        info.textInput = false;
+        info.checkbox = true;
         break;
       case Number:
-        info.tag = 'input';
+        info.textInput = true;
         info.type = 'number';
         break;
       case String:
       default:
+        info.textInput = !keyInfo.text;
+        info.textArea = keyInfo.text;
+        info.secure = keyInfo.secure;
         // TODO: recurse if deep?
         info.tag = keyInfo.text ? 'textarea' : 'input';
         info.type = keyInfo.secure ? 'password' : 'text';

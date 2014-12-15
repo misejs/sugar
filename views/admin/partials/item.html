@@ -1,15 +1,9 @@
 <ul e-repeat="fields">
   <li>
     <label e-attr="for:name" e-text="name"></label>
-    <!-- ko if: tag == 'input' && type != 'checkbox' -->
-    <input data-bind="attr: { type: type, name: name, disabled: !editable }, value: $root.model()[name]"/>
-    <!-- /ko -->
-    <!-- ko if: tag == 'input' && type == 'checkbox' -->
-    <input data-bind="attr: { type: type, name: name, disabled: !editable }, checked: $root.model()[name]"/>
-    <!-- /ko -->
-    <!-- ko if: tag == 'textarea' -->
-    <textarea data-bind="attr: { type: type, name: name, disabled: !editable }, value: $root.model()[name]"></textarea>
-    <!-- /ko -->
+    <input e-if="textInput" e-attr="type:type,name:name,disabled:disabled,value:value"/>
+    <input e-if="checkbox" e-attr="type:type,name:name,disabled:disabled,checked:value"/>
+    <textarea e-if="textArea" e-attr="type:type,name:name,disabled:disabled" e-text="value"/></textarea>
   </li>
 </ul>
 <a data-bind="click: save">Save</a>

@@ -1,10 +1,10 @@
 <div id="admin-index">
   <ul e-repeat="items">
     <li>
-      <a e-attr="href:link", e-text="title" data-bind="text: title, attr: { href: '/admin/'+$root.collection+'/' + _id }"></a>
-      <a e-on="click:remove" data-bind="click: $root.remove">delete</a>
+      <a e-attr="href:link", e-text="title"></a>
+      <a e-on="click:remove">delete</a>
     </li>
   </ul>
 
-  <a e-attr="href:createLink" data-bind="attr: { href: '/admin/'+collection+'/create' }">New</a>
+  <a e-attr="href:createLink">New</a>
 </div>

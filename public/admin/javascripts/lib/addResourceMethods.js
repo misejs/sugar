@@ -1,18 +1,17 @@
 var request = require('superagent');
 var prefix = require('superagent-prefix');
 
-var validateRequest = function(){
-  if(typeof window == 'undefined' && request.url[0] === '/'){
-    throw new Error('When initializing models on the server, you must provide a baseURL.');
-  }
+var getURL = function(url,baseURL){
+  if(!baseURL) return url;
+  url = url.replace(/^\//,'');
+  return baseURL.replace(/((?:https?:\/\/)?[^\/]+).+/i,'$1/' + url);
 }
 
-var generateModel = function(Model){
+var generateModel = function(Model,baseURL){
   var collection = Model.prototype.collection;
   Model.index = function(success,error,complete){
-    validateRequest();
     request
-      .get('/api/' + collection)
+      .get(getURL('/api/' + collection,baseURL))
       .end(function(err,res){
         if(err){
           error(err);
@@ -23,9 +22,8 @@ var generateModel = function(Model){
       });
   };
   Model.show = function(id,success,error,complete){
-    validateRequest();
     request
-      .get('/api/' + collection + '/' + id)
+      .get(getURL('/api/' + collection + '/' + id,baseURL))
       .end(function(err,res){
         if(err){
           error(err);
@@ -40,7 +38,7 @@ var generateModel = function(Model){
     var data = this.toObject();
     method = !!data._id ? 'put' : 'post';
     request
-      [method]('/api/' + collection + (data._id ? '/' + data._id : ''))
+      [method](getURL('/api/' + collection + (data._id ? '/' + data._id : ''),baseURL))
       .send(data)
       .end(function(err,res){
         if(err){
@@ -55,7 +53,7 @@ var generateModel = function(Model){
     validateRequest();
     var data = this.toObject();
     request
-      .delete('/api/' + collection + '/' + data._id)
+      .delete(getURL('/api/' + collection + '/' + data._id,baseURL))
       .end(function(err,res){
         if(err){
           error(err);
@@ -68,7 +66,4 @@ var generateModel = function(Model){
   return Model;
 };
 
-module.exports = function(model,baseURL){
-  if(baseURL) prefix(baseURL)(request);
-  return generateModel(model);
-};
+module.exports = generateModel;

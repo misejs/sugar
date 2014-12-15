@@ -29,7 +29,9 @@
     "mongo-wrapper": "~0.0.28",
     "pluralize": "~1.1.0",
     "superagent": "~0.21.0",
-    "superagent-prefix": "~0.0.2"
+    "superagent-prefix": "~0.0.2",
+    "mise-sugar" : "~0.0.1",
+    "mise-model" : "~0.0.1"
   },
   "devDependencies": {
     "async": "^0.9.0",

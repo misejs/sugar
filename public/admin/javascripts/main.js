@@ -2,6 +2,6 @@ var runViewModels = require('./viewmodels');
 var jquery = require('jquery-browserify');
 
 runViewModels.call({
-  url : window.url,
-  models : window.mise.models
+  url : window.location.href,
+  models : require('models')
 },jquery);

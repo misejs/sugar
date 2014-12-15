@@ -1,10 +1,13 @@
 module.exports = function(helpers){
   function AdminViewModel() {
     var models = helpers.models;
-    var modelNames = Object.keys(models).map(function(name){
-      return models[name].prototype.collection;
+    this.models = Object.keys(models).map(function(model){
+      name = models[model].prototype.collection;
+      return {
+        name : name,
+        link : '/admin/' + name
+      };
     });
-    this.models = [];
   };
   return AdminViewModel;
 };

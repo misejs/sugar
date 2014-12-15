@@ -15,11 +15,12 @@ gulp.task('injectScripts', ['browserify'], function () {
 
 // Browserify - concatenates the browserify files and dumps them in app.js
 gulp.task('browserify', function() {
+  var b = browserify({
+    debug: true,
+    exclude : ['models']
+  });
   var target = gulp.src(['./public/admin/javascripts/main.js'])
-    .pipe(browserify({
-      insertGlobals: true,
-      debug: true
-    }))
+    .pipe(b)
     // Bundle to a single file
     .pipe(concat('main.js'))
     // Output it to our dist folder
