@@ -29,7 +29,7 @@ helpers.parseSchema = function(schema){
     var keyInfo = schema[key];
     var info = {
       name : key,
-      disabled : keyInfo.editable === false
+      disabled : keyInfo.disabled === true
     };
     switch(keyInfo.type){
       case Boolean:

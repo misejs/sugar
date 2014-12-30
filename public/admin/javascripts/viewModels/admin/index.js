@@ -9,7 +9,6 @@ module.exports = function(helpers){
     self.remove = function(info){
       if(confirm('Are you sure you want to delete this item? This cannot be undone.')){
         var item = new Model(info);
-        item.link = '/admin/'+self.collection+'/' + item._id;
         item.destroy(function(){
           reload();
         },function(err){
@@ -20,7 +19,12 @@ module.exports = function(helpers){
 
     var reload = function(cb){
       Model.index(function(items){
-        if(items) self.items = items[self.collection];
+        items = items[self.collection].map(function(item){
+          item.link = '/admin/'+self.collection+'/' + item._id;
+          return item;
+        });
+        console.log(items, self.collection);
+        self.items = items;
       },function(err){
         console.error('error listing items: ',err);
       },cb);

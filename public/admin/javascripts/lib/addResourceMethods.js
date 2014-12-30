@@ -13,54 +13,56 @@ var generateModel = function(Model,baseURL){
     request
       .get(getURL('/api/' + collection,baseURL))
       .end(function(err,res){
+        err = err || res.error || res.body.error;
         if(err){
           error(err);
         } else {
           success(res.body);
         }
-        complete();
+        if(complete) complete();
       });
   };
   Model.show = function(id,success,error,complete){
     request
       .get(getURL('/api/' + collection + '/' + id,baseURL))
       .end(function(err,res){
+        err = err || res.error || res.body.error;
         if(err){
           error(err);
         } else {
           success(res.body);
         }
-        complete();
+        if(complete) complete();
       });
   };
   Model.prototype.save = function(success,error,complete){
-    validateRequest();
     var data = this.toObject();
     method = !!data._id ? 'put' : 'post';
     request
       [method](getURL('/api/' + collection + (data._id ? '/' + data._id : ''),baseURL))
       .send(data)
       .end(function(err,res){
+        err = err || res.error || res.body.error;
         if(err){
           error(err);
         } else {
           success(res.body);
         }
-        complete();
+        if(complete) complete();
       });
   };
   Model.prototype.destroy = function(success,error,complete){
-    validateRequest();
     var data = this.toObject();
     request
       .delete(getURL('/api/' + collection + '/' + data._id,baseURL))
       .end(function(err,res){
+        err = err || res.error || res.body.error;
         if(err){
           error(err);
         } else {
           success(res.body);
         }
-        complete();
+        if(complete) complete();
       });
   };
   return Model;
