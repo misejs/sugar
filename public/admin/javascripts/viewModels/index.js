@@ -10,9 +10,6 @@ module.exports = function($,callback){
     var ViewModel = route.viewModel(helpers);
     eggs($,{selector : route.selector},ViewModel,done);
   },function(err){
-    if(callback && $.html){
-      var html = $.html();
-      callback(err,html);
-    }
+    if(callback) callback(err);
   });
 }
