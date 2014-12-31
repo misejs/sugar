@@ -22,16 +22,17 @@
   },
   "homepage": "https://github.com/misejs/sugar",
   "dependencies": {
+    "body-parser": "^1.10.0",
     "express": "^4.10.3",
     "express-layout": "misejs/express-layout#views_array_support",
     "express-resource": "misejs/express-resource#housekeeping",
     "jquery-browserify": "^1.8.1",
+    "mise-model": "~0.0.1",
+    "mise-sugar": "~0.0.1",
     "mongo-wrapper": "~0.0.28",
     "pluralize": "~1.1.0",
     "superagent": "~0.21.0",
-    "superagent-prefix": "~0.0.2",
-    "mise-sugar" : "~0.0.1",
-    "mise-model" : "~0.0.1"
+    "superagent-prefix": "~0.0.2"
   },
   "devDependencies": {
     "async": "^0.9.0",
