@@ -23,6 +23,14 @@ helpers.currentModel = function(){
   return addResourceMethods(model,this.url);
 };
 
+helpers.modelFromFields = function(Model,fields){
+  var model = new Model();
+  fields.forEach(function(field){
+    model[field.name] = field.value;
+  });
+  return model;
+};
+
 helpers.parseSchema = function(schema){
   var fields = [];
   Object.keys(schema).forEach(function(key){

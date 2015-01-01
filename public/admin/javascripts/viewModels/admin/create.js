@@ -5,6 +5,7 @@ module.exports = function(helpers){
     self.model = new Model();
     self.fields = helpers.parseSchema(self.model.schema);
     self.save = function(){
+      self.model = helpers.modelFromFields(Model,self.fields);
       self.model.save(function(saved){
         self.model = new Model(saved);
         window.location = '/admin/' + Model.prototype.collection + '/' + saved._id;

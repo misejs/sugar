@@ -6,17 +6,14 @@ module.exports = function(helpers){
     self.fields = helpers.parseSchema(self.model.schema);
     Model.show(helpers.currentID(),function(info){
       self.model = new Model(info);
-      self.fields = self.fields.map(function(field){
+      self.fields.forEach(function(field){
         field.value = self.model[field.name];
-        return field;
       });
     },function(err){
       console.error(err);
     },ready);
     self.save = function(){
-      self.fields.forEach(function(field){
-        self.model[field.name] = field.value;
-      });
+      self.model = helpers.modelFromFields(Model,self.fields);
       self.model.save(function(saved){
         self.model = new Model(saved);
       },function(){
