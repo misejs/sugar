@@ -1,24 +1,33 @@
-var models = require('../../models');
 var url = require('url');
+var addResourceMethods = require('./addResourceMethods');
 
 var helpers = module.exports = {};
 
-var currentCollection = helpers.currentCollection = function(){
-  var match = url.parse(window.location.href).pathname.match(/\/admin\/([^\/]+)/);
+helpers.currentCollection = function(){
+  var match = url.parse(this.url).pathname.match(/\/admin\/([^\/]+)/);
   return match ? match[1] : null;
 };
 
 helpers.currentID = function(){
-  var match = url.parse(window.location.href).pathname.match(/\/admin\/[^\/]+\/([^\/]+)/);
+  var match = url.parse(this.url).pathname.match(/\/admin\/[^\/]+\/([^\/]+)/);
   return match ? match[1] : null;
 };
 
 helpers.currentModel = function(){
-  var collection = currentCollection();
+  var collection = this.currentCollection();
+  var models = this.models;
   var model = Object.keys(models).reduce(function(previous,name){
     var model = models[name];
     return (model.prototype.collection == collection) ? model : previous;
   },{});
+  return addResourceMethods(model,this.url);
+};
+
+helpers.modelFromFields = function(Model,fields){
+  var model = new Model();
+  fields.forEach(function(field){
+    model[field.name] = field.value;
+  });
   return model;
 };
 
@@ -28,19 +37,23 @@ helpers.parseSchema = function(schema){
     var keyInfo = schema[key];
     var info = {
       name : key,
-      editable : keyInfo.editable !== false
+      disabled : keyInfo.disabled === true
     };
     switch(keyInfo.type){
       case Boolean:
-        info.tag = 'input';
+        info.textInput = false;
+        info.checkbox = true;
         info.type = 'checkbox';
         break;
       case Number:
-        info.tag = 'input';
+        info.textInput = true;
         info.type = 'number';
         break;
       case String:
       default:
+        info.textInput = !keyInfo.text;
+        info.textArea = keyInfo.text;
+        info.secure = keyInfo.secure;
         // TODO: recurse if deep?
         info.tag = keyInfo.text ? 'textarea' : 'input';
         info.type = keyInfo.secure ? 'password' : 'text';
