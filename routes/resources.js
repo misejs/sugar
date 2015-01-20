@@ -18,6 +18,7 @@ var setupResources = function(models,db){
   // set up resources for our models
   Object.keys(models).forEach(function(key){
     var Model = models[key];
+    var itemName = key.toLowerCase();
     var name = Model.prototype.collection;
     var collection = db[name];
     resources[name] = {};
@@ -48,8 +49,8 @@ var setupResources = function(models,db){
       });
     }
     resources[name].show = function(req,res){
-      log('finding',req.params[0],'from',name);
-      collection.findOne(req.params[0],function(err,item,result){
+      log('finding',req.params[itemName],'from',name);
+      collection.findById(req.params[itemName],function(err,item,result){
         log('got',err,item,result);
         if(err){
           res.status(500).json({error : err.message});
@@ -59,7 +60,7 @@ var setupResources = function(models,db){
       });
     };
     resources[name].update = function(req,res){
-      var id = parseId(req.params[key.toLowerCase()]);
+      var id = parseId(req.params[itemName]);
       log('updating',id,'from',name);
       if(!id){
         res.status(406).json({error : "invalid id"});
