@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/misejs/sugar",
   "dependencies": {
+    "bcrypt": "^0.8.1",
     "body-parser": "^1.10.0",
     "express": "^4.10.3",
     "express-layout": "misejs/express-layout#views_array_support",
@@ -30,6 +31,8 @@
     "mise-model": "~0.0.1",
     "mise-sugar": "~0.0.1",
     "mongo-wrapper": "~0.0.28",
+    "passport": "^0.2.1",
+    "passport-local": "^1.0.0",
     "pluralize": "~1.1.0",
     "superagent": "~0.21.0",
     "superagent-prefix": "~0.0.2"
