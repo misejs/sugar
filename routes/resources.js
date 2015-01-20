@@ -1,6 +1,6 @@
 var Resource = require('express-resource');
 
-var verbose = true;
+var verbose = false;
 var log = function(){
   if(verbose) return console.log.apply(console,arguments);
 };
