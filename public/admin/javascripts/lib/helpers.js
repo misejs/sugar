@@ -43,6 +43,7 @@ helpers.parseSchema = function(schema){
       case Boolean:
         info.textInput = false;
         info.checkbox = true;
+        info.type = 'checkbox';
         break;
       case Number:
         info.textInput = true;
